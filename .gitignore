@@ -42,3 +42,4 @@ next-env.d.ts
 
 data/pi-deep.txt
 data/pi-deep.txt.tmp
+.cursor/

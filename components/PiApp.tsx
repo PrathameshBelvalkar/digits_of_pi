@@ -82,13 +82,16 @@ export function PiApp() {
   const headerRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const [focusAnchor, setFocusAnchor] = useState({ x: 0.5, y: 0.5 });
+  const [pendingQuery, setPendingQuery] = useState<string | null>(null);
+  const [shareSeed, setShareSeed] = useState("");
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const url = new URL(window.location.href);
-    if (url.searchParams.has("n")) {
-      url.searchParams.delete("n");
-      window.history.replaceState({}, "", url.pathname);
+    const raw = url.searchParams.get("n")?.replace(/\D/g, "") ?? "";
+    if (raw.length >= 3 && raw.length <= 8) {
+      setShareSeed(raw);
+      setPendingQuery(raw);
     }
   }, []);
 
@@ -171,8 +174,14 @@ export function PiApp() {
       abortRef.current?.abort();
       const ac = new AbortController();
       abortRef.current = ac;
+      const query = value.replace(/\D/g, "");
       setSearching(true);
       setResult(null);
+      if (query.length >= 3 && query.length <= 8) {
+        const next = new URL(window.location.href);
+        next.searchParams.set("n", query);
+        window.history.replaceState({}, "", `${next.pathname}?n=${query}`);
+      }
       try {
         const found = findNumber(value, digits);
         if (found) {
@@ -184,7 +193,6 @@ export function PiApp() {
           return;
         }
 
-        const query = value.replace(/\D/g, "");
         if (query.length >= 5) {
           const deep = await searchDeepNumber(query, ac.signal);
           if (ac.signal.aborted) return;
@@ -216,6 +224,13 @@ export function PiApp() {
     [digits]
   );
 
+  useEffect(() => {
+    if (!digits || !pendingQuery) return;
+    const q = pendingQuery;
+    setPendingQuery(null);
+    void runSearch(q);
+  }, [digits, pendingQuery, runSearch]);
+
   function handleShare() {
     if (!result) return;
     const via =
@@ -224,7 +239,8 @@ export function PiApp() {
         : result.source === "pisearch"
           ? ` — via ${PISEARCH_CREDIT}`
           : "";
-    const text = `Found ${result.query} at digit ${result.index.toLocaleString()} of π — ${result.context}${via}`;
+    const shareUrl = `${window.location.origin}/?n=${result.query}`;
+    const text = `Found ${result.query} at digit ${result.index.toLocaleString()} of π — ${result.context}${via}\n${shareUrl}`;
     navigator.clipboard.writeText(text).then(
       () => toast.success("Copied result"),
       () => toast.error("Could not copy")
@@ -258,7 +274,11 @@ export function PiApp() {
     setCamera({ ...DEFAULT_CAMERA });
     setResult(null);
     setLiveMessage("");
+    setShareSeed("");
     setViewKey((k) => k + 1);
+    if (typeof window !== "undefined") {
+      window.history.replaceState({}, "", window.location.pathname);
+    }
   }
 
   const viewDigits = canvasDigits(digits, result);
@@ -347,6 +367,7 @@ export function PiApp() {
                 onExport={handleExport}
                 onRefresh={resetView}
                 result={result}
+                initialValue={shareSeed}
                 searching={searching}
                 ready={Boolean(digits)}
               />

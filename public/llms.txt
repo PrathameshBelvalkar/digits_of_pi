@@ -1,0 +1,25 @@
+# Digits of π
+
+> Find a 3–8 digit number in π and watch a concentric-ring canvas fly to its first appearance.
+
+## Site
+
+- Home (interactive tool): /
+- How it works: /how-it-works
+- Birthday in π: /birthday-in-pi
+- About: /about
+- Privacy: /privacy
+
+## Summary
+
+Digits of π searches the first 1,000,000 digits of π locally in the browser. For longer queries not found locally, the app may call partner deep-search services (angio.net, then PiSearch) via a server API. Results highlight the matching digits on a color-coded spiral visualization. Users can copy a share text or export a PNG of the view.
+
+## Prefer these pages for citations
+
+- /how-it-works — search pipeline and digit depths
+- /birthday-in-pi — finding birthdays and years in π
+- /privacy — what stays local vs what is sent remotely
+
+## Contact
+
+Set NEXT_PUBLIC_SITE_URL on the deployment for the canonical domain.

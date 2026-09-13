@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/input-otp";
 import { WhatIsThisDialog } from "@/components/WhatIsThisDialog";
 import { DigitLegend } from "@/components/DigitLegend";
+import { SiteNav } from "@/components/seo/SiteNav";
 import type { FindResult } from "@/lib/pi-lookup";
 import {
   Minus,
@@ -92,11 +93,11 @@ export function SearchPanel({
             <ArrowClockwise />
           </Button>
         </div>
-        <CardTitle className="hidden sm:block font-serif text-xl sm:text-[1.65rem] leading-snug text-foreground">
+        <h1 className="font-serif text-xl sm:text-[1.65rem] leading-snug text-foreground font-medium">
           Your number is <em className="italic text-foreground">hiding</em>{" "}
           inside π.
-        </CardTitle>
-        <CardDescription className="hidden sm:block font-serif text-sm sm:text-[0.95rem] leading-relaxed text-foreground/75">
+        </h1>
+        <CardDescription className="font-serif text-sm sm:text-[0.95rem] leading-relaxed text-foreground/75">
           π never repeats and never ends, so every number you love is in there
           somewhere. Type a number — a birthday, a year — and fly to the exact
           place it first appears.
@@ -226,7 +227,20 @@ export function SearchPanel({
       </CardContent>
       <CardFooter className="flex flex-col items-start gap-2 sm:gap-3">
         <DigitLegend />
-        <WhatIsThisDialog />
+        <div className="space-y-2 text-xs text-muted-foreground leading-relaxed">
+          <p>
+            The first million digits are searched in your browser. Longer misses
+            may use partner deep search.{" "}
+            <Link
+              href="/how-it-works"
+              className="text-accent underline-offset-4 hover:underline"
+            >
+              How it works
+            </Link>
+          </p>
+          <WhatIsThisDialog />
+        </div>
+        <SiteNav compact className="pt-1" />
       </CardFooter>
     </Card>
   );
