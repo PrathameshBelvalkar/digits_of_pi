@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { DocumentShell } from "@/components/seo/DocumentShell";
-import { articleJsonLd, JsonLd, webPageJsonLd } from "@/lib/seo";
+import { articleJsonLd, JsonLd, pageOpenGraph, webPageJsonLd } from "@/lib/seo";
 
 const TITLE = "Find your birthday in the digits of π";
 const DESCRIPTION =
@@ -12,11 +12,12 @@ export const metadata: Metadata = {
   title: "Birthday in π",
   description: DESCRIPTION,
   alternates: { canonical: "/birthday-in-pi" },
-  openGraph: {
+  openGraph: pageOpenGraph({
     title: TITLE,
     description: DESCRIPTION,
     url: "/birthday-in-pi",
-  },
+    type: "article",
+  }),
 };
 
 export default function BirthdayInPiPage() {

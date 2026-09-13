@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { DocumentShell } from "@/components/seo/DocumentShell";
-import { articleJsonLd, JsonLd, webPageJsonLd } from "@/lib/seo";
+import { articleJsonLd, JsonLd, pageOpenGraph, webPageJsonLd } from "@/lib/seo";
 
 const TITLE = "How searching the digits of π works";
 const DESCRIPTION =
@@ -12,11 +12,12 @@ export const metadata: Metadata = {
   title: "How it works",
   description: DESCRIPTION,
   alternates: { canonical: "/how-it-works" },
-  openGraph: {
+  openGraph: pageOpenGraph({
     title: TITLE,
     description: DESCRIPTION,
     url: "/how-it-works",
-  },
+    type: "article",
+  }),
 };
 
 export default function HowItWorksPage() {

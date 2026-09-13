@@ -1,4 +1,27 @@
+import type { Metadata } from "next";
 import { absoluteUrl, SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "@/lib/site";
+
+export const OG_IMAGE = {
+  url: "/meta_image.jpg",
+  width: 1200,
+  height: 630,
+  alt: "Find your number in the digits of π",
+} as const;
+
+export function pageOpenGraph(input: {
+  title: string;
+  description: string;
+  url: string;
+  type?: "website" | "article";
+}): NonNullable<Metadata["openGraph"]> {
+  return {
+    title: input.title,
+    description: input.description,
+    url: input.url,
+    type: input.type ?? "website",
+    images: [OG_IMAGE],
+  };
+}
 
 export function websiteJsonLd() {
   return {

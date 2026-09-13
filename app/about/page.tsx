@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { DocumentShell } from "@/components/seo/DocumentShell";
-import { JsonLd, webPageJsonLd } from "@/lib/seo";
+import { JsonLd, pageOpenGraph, webPageJsonLd } from "@/lib/seo";
 
 const TITLE = "About Digits of π";
 const DESCRIPTION =
@@ -11,11 +11,11 @@ export const metadata: Metadata = {
   title: "About",
   description: DESCRIPTION,
   alternates: { canonical: "/about" },
-  openGraph: {
+  openGraph: pageOpenGraph({
     title: TITLE,
     description: DESCRIPTION,
     url: "/about",
-  },
+  }),
 };
 
 export default function AboutPage() {
