@@ -170,7 +170,14 @@ export const PiCanvas = forwardRef<PiCanvasHandle, PiCanvasProps>(
     const driftRef = useRef<number | null>(null);
     const driftOffsetRef = useRef({ x: 0, y: 0 });
     const pauseDriftRef = useRef(false);
-    const dragRef = useRef({ active: false, lastX: 0, lastY: 0 });
+    const pointersRef = useRef(new Map<number, { x: number; y: number }>());
+    const panRef = useRef({ active: false, lastX: 0, lastY: 0 });
+    const pinchRef = useRef({
+      active: false,
+      lastDist: 0,
+      lastMidX: 0,
+      lastMidY: 0,
+    });
     const onCameraChangeRef = useRef(onCameraChange);
     onCameraChangeRef.current = onCameraChange;
     const focusAnchorRef = useRef(focusAnchor);
@@ -611,7 +618,11 @@ export const PiCanvas = forwardRef<PiCanvasHandle, PiCanvasProps>(
       const tick = (now: number) => {
         const dt = Math.min(48, now - last);
         last = now;
-        if (!pauseDriftRef.current && !dragRef.current.active) {
+        if (
+          !pauseDriftRef.current &&
+          !panRef.current.active &&
+          !pinchRef.current.active
+        ) {
           const scale = cameraRef.current.scale;
           const tileWs = tileRef.current.width * scale;
           const tileHs = tileRef.current.height * scale;
@@ -711,18 +722,99 @@ export const PiCanvas = forwardRef<PiCanvasHandle, PiCanvasProps>(
       };
     }, [highlightIndex, highlightLength, renderCount]);
 
+    const applyZoomAt = (clientX: number, clientY: number, factor: number) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const cam = cameraRef.current;
+      const nextScale = Math.min(18, Math.max(0.35, cam.scale * factor));
+      if (nextScale === cam.scale) return;
+      const rect = canvas.getBoundingClientRect();
+      const mx = clientX - rect.left;
+      const my = clientY - rect.top;
+      const cx = canvas.clientWidth / 2;
+      const cy = canvas.clientHeight / 2;
+      const drift = driftOffsetRef.current;
+      const wx = (mx - cx - cam.x - drift.x) / cam.scale;
+      const wy = (my - cy - cam.y - drift.y) / cam.scale;
+      const next: Camera = {
+        scale: nextScale,
+        x: mx - cx - wx * nextScale - drift.x,
+        y: my - cy - wy * nextScale - drift.y,
+      };
+      cameraRef.current = next;
+      onCameraChangeRef.current?.(next);
+      drawRef.current();
+    };
+
+    const syncGestureFromPointers = () => {
+      const pts = [...pointersRef.current.values()];
+      if (pts.length >= 2) {
+        const [a, b] = pts;
+        const dist = Math.hypot(b.x - a.x, b.y - a.y);
+        panRef.current.active = false;
+        pinchRef.current = {
+          active: true,
+          lastDist: Math.max(dist, 1),
+          lastMidX: (a.x + b.x) / 2,
+          lastMidY: (a.y + b.y) / 2,
+        };
+        return;
+      }
+      pinchRef.current.active = false;
+      if (pts.length === 1) {
+        panRef.current = {
+          active: true,
+          lastX: pts[0].x,
+          lastY: pts[0].y,
+        };
+        return;
+      }
+      panRef.current.active = false;
+    };
+
     function onPointerDown(e: React.PointerEvent) {
       if (!interactive) return;
-      dragRef.current = { active: true, lastX: e.clientX, lastY: e.clientY };
+      pointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
       (e.target as HTMLElement).setPointerCapture(e.pointerId);
+      syncGestureFromPointers();
     }
 
     function onPointerMove(e: React.PointerEvent) {
-      if (!interactive || !dragRef.current.active) return;
-      const dx = e.clientX - dragRef.current.lastX;
-      const dy = e.clientY - dragRef.current.lastY;
-      dragRef.current.lastX = e.clientX;
-      dragRef.current.lastY = e.clientY;
+      if (!interactive) return;
+      if (!pointersRef.current.has(e.pointerId)) return;
+      pointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if (pointersRef.current.size >= 2 && pinchRef.current.active) {
+        const pts = [...pointersRef.current.values()];
+        const [a, b] = pts;
+        const dist = Math.max(Math.hypot(b.x - a.x, b.y - a.y), 1);
+        const midX = (a.x + b.x) / 2;
+        const midY = (a.y + b.y) / 2;
+        const factor = dist / pinchRef.current.lastDist;
+        applyZoomAt(midX, midY, factor);
+        const dx = midX - pinchRef.current.lastMidX;
+        const dy = midY - pinchRef.current.lastMidY;
+        if (dx !== 0 || dy !== 0) {
+          const next: Camera = {
+            ...cameraRef.current,
+            x: cameraRef.current.x + dx,
+            y: cameraRef.current.y + dy,
+          };
+          cameraRef.current = next;
+          onCameraChangeRef.current?.(next);
+          drawRef.current();
+        }
+        pinchRef.current.lastDist = dist;
+        pinchRef.current.lastMidX = midX;
+        pinchRef.current.lastMidY = midY;
+        return;
+      }
+
+      if (!panRef.current.active) return;
+      const dx = e.clientX - panRef.current.lastX;
+      const dy = e.clientY - panRef.current.lastY;
+      panRef.current.lastX = e.clientX;
+      panRef.current.lastY = e.clientY;
       const next: Camera = {
         ...cameraRef.current,
         x: cameraRef.current.x + dx,
@@ -733,40 +825,23 @@ export const PiCanvas = forwardRef<PiCanvasHandle, PiCanvasProps>(
       draw();
     }
 
-    function onPointerUp() {
-      dragRef.current.active = false;
+    function onPointerUp(e: React.PointerEvent) {
+      pointersRef.current.delete(e.pointerId);
+      const target = e.target as HTMLElement;
+      if (target.hasPointerCapture?.(e.pointerId)) {
+        target.releasePointerCapture(e.pointerId);
+      }
+      syncGestureFromPointers();
     }
 
     useEffect(() => {
       const canvas = canvasRef.current;
       if (!canvas || !interactive) return;
 
-      const zoomAt = (clientX: number, clientY: number, factor: number) => {
-        const cam = cameraRef.current;
-        const nextScale = Math.min(18, Math.max(0.35, cam.scale * factor));
-        if (nextScale === cam.scale) return;
-        const rect = canvas.getBoundingClientRect();
-        const mx = clientX - rect.left;
-        const my = clientY - rect.top;
-        const cx = canvas.clientWidth / 2;
-        const cy = canvas.clientHeight / 2;
-        const drift = driftOffsetRef.current;
-        const wx = (mx - cx - cam.x - drift.x) / cam.scale;
-        const wy = (my - cy - cam.y - drift.y) / cam.scale;
-        const next: Camera = {
-          scale: nextScale,
-          x: mx - cx - wx * nextScale - drift.x,
-          y: my - cy - wy * nextScale - drift.y,
-        };
-        cameraRef.current = next;
-        onCameraChangeRef.current?.(next);
-        drawRef.current();
-      };
-
       const onWheelNative = (e: WheelEvent) => {
         e.preventDefault();
         const factor = e.deltaY > 0 ? 0.9 : 1.1;
-        zoomAt(e.clientX, e.clientY, factor);
+        applyZoomAt(e.clientX, e.clientY, factor);
       };
 
       const blockGesture = (e: Event) => e.preventDefault();
@@ -794,7 +869,7 @@ export const PiCanvas = forwardRef<PiCanvasHandle, PiCanvasProps>(
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
-        onPointerLeave={onPointerUp}
+        onPointerCancel={onPointerUp}
       />
     );
   }

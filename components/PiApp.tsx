@@ -374,8 +374,11 @@ export function PiApp() {
             </div>
           )}
           {mode === "search" && (
-            <p className="pointer-events-none absolute bottom-4 right-4 sm:right-8 text-xs text-muted-foreground/80 hidden sm:block">
-              Drag to pan · scroll to zoom
+            <p className="pointer-events-none absolute bottom-4 right-4 sm:right-8 text-xs text-muted-foreground/80">
+              <span className="sm:hidden">Drag to pan · pinch to zoom</span>
+              <span className="hidden sm:inline">
+                Drag to pan · scroll to zoom
+              </span>
             </p>
           )}
         </main>
