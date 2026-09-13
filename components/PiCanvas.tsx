@@ -31,6 +31,7 @@ export type ExportInfo = {
 
 export type PiCanvasHandle = {
   exportImage: (info?: ExportInfo | null) => string | null;
+  exportSvg: (info?: ExportInfo | null) => string | null;
   getCamera: () => Camera;
 };
 
@@ -49,6 +50,18 @@ type PiCanvasProps = {
 };
 
 export const DEFAULT_CAMERA: Camera = { x: 0, y: 0, scale: 1 };
+
+function svgNum(n: number) {
+  return (Math.round(n * 100) / 100).toString();
+}
+
+function svgEscape(s: string) {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
 
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;
@@ -590,6 +603,159 @@ export const PiCanvas = forwardRef<PiCanvasHandle, PiCanvasProps>(
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         drawScene(ctx, w, h, { forExport: true, info });
         return off.toDataURL("image/png");
+      },
+      exportSvg: (info) => {
+        const canvas = canvasRef.current;
+        const source = digitsRef.current;
+        if (!canvas || !source) return null;
+        const w = canvas.clientWidth;
+        const h = canvas.clientHeight;
+        if (w === 0 || h === 0) return null;
+
+        const cam = cameraRef.current;
+        const drift = driftOffsetRef.current;
+        const cx = w / 2 + cam.x + drift.x;
+        const cy = h / 2 + cam.y + drift.y;
+        const points = pointsRef.current;
+        const scale = cam.scale;
+        const tileW = tileRef.current.width;
+        const tileH = tileRef.current.height;
+        const tileWs = tileW * scale;
+        const tileHs = tileH * scale;
+
+        const hasMatch = highlightIndex !== null && highlightLength > 0;
+        const focusIndex = hasMatch ? highlightIndex! : null;
+        const focusLength = hasMatch ? highlightLength : 0;
+        const hasFocus = focusIndex !== null && focusLength > 0;
+        const focusEnd = hasFocus ? focusIndex + focusLength : -1;
+
+        let focusOx = 0;
+        let focusOy = 0;
+        if (hasFocus) {
+          const mid =
+            focusIndex! + Math.floor(Math.max(0, focusLength - 1) / 2);
+          const midP =
+            points[mid] ?? pointAtIndex(mid, Math.max(renderCount, mid + 1));
+          const viewCenterX = (w / 2 - cx) / scale;
+          const viewCenterY = (h / 2 - cy) / scale;
+          const nearestTx = Math.round((viewCenterX - midP.x) / tileW);
+          const nearestTy = Math.round((viewCenterY - midP.y) / tileH);
+          focusOx = nearestTx * tileWs;
+          focusOy = nearestTy * tileHs;
+        }
+
+        const lodStep =
+          scale < 0.5 ? 4 : scale < 0.85 ? 2 : renderCount > 40000 ? 2 : 1;
+        const pad = 24;
+        const tx0 = Math.floor((-cx - pad) / tileWs) - 1;
+        const tx1 = Math.ceil((w - cx + pad) / tileWs) + 1;
+        const ty0 = Math.floor((-cy - pad) / tileHs) - 1;
+        const ty1 = Math.ceil((h - cy + pad) / tileHs) + 1;
+
+        const byColor = new Map<string, string[]>();
+        const pushCircle = (
+          color: string,
+          sx: number,
+          sy: number,
+          r: number,
+          opacity: number
+        ) => {
+          const list = byColor.get(color) ?? [];
+          const op =
+            opacity < 0.999
+              ? ` fill-opacity="${svgNum(opacity)}"`
+              : "";
+          list.push(
+            `<circle cx="${svgNum(sx)}" cy="${svgNum(sy)}" r="${svgNum(r)}"${op}/>`
+          );
+          byColor.set(color, list);
+        };
+
+        for (let ty = ty0; ty <= ty1; ty++) {
+          for (let tx = tx0; tx <= tx1; tx++) {
+            const ox = tx * tileWs;
+            const oy = ty * tileHs;
+            for (let i = 0; i < points.length; i += lodStep) {
+              if (hasFocus && i >= focusIndex! && i < focusEnd) continue;
+              const p = points[i];
+              const sx = cx + p.x * scale + ox;
+              const sy = cy + p.y * scale + oy;
+              if (sx < -20 || sy < -20 || sx > w + 20 || sy > h + 20) continue;
+              const digit = Number(source[i]);
+              const color = DIGIT_PALETTE_HEX[digit] ?? DIGIT_PALETTE_HEX[0];
+              const r =
+                digitRadius(digit) *
+                0.55 *
+                Math.min(scale, 2.2) *
+                (lodStep > 1 ? 1.15 : 1);
+              pushCircle(color, sx, sy, r, hasMatch ? 0.12 : 1);
+            }
+          }
+        }
+
+        const lines: string[] = [];
+        if (hasFocus) {
+          const bridge: { x: number; y: number; digit: number; r: number }[] =
+            [];
+          for (let i = 0; i < focusLength; i++) {
+            const idx = focusIndex! + i;
+            if (idx >= source.length) break;
+            const raw =
+              points[idx] ?? pointAtIndex(idx, Math.max(renderCount, idx + 1));
+            const digit = Number(source[idx]);
+            const r = digitRadius(digit) * 0.75 * Math.min(scale, 2.2);
+            bridge.push({
+              x: cx + raw.x * scale + focusOx,
+              y: cy + raw.y * scale + focusOy,
+              digit,
+              r,
+            });
+          }
+          const strokeW = Math.max(1.25, 1.5 * Math.min(scale, 1.4));
+          for (let i = 0; i < bridge.length - 1; i++) {
+            const a = bridge[i];
+            const b = bridge[i + 1];
+            const dx = b.x - a.x;
+            const dy = b.y - a.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist <= a.r + b.r + 1) continue;
+            const ux = dx / dist;
+            const uy = dy / dist;
+            lines.push(
+              `<line x1="${svgNum(a.x + ux * a.r)}" y1="${svgNum(a.y + uy * a.r)}" x2="${svgNum(b.x - ux * b.r)}" y2="${svgNum(b.y - uy * b.r)}" stroke="#5C4030" stroke-width="${svgNum(strokeW)}" stroke-linecap="round"/>`
+            );
+          }
+          for (const node of bridge) {
+            pushCircle(DIGIT_PALETTE_HEX[node.digit], node.x, node.y, node.r, 1);
+          }
+        }
+
+        const colorGroups: string[] = [];
+        for (const [color, circles] of byColor) {
+          colorGroups.push(`<g fill="${color}">${circles.join("")}</g>`);
+        }
+
+        let footer = "";
+        if (info) {
+          const boxH = 96;
+          const padBox = 28;
+          footer = [
+            `<rect x="0" y="${svgNum(h - boxH)}" width="${svgNum(w)}" height="${boxH}" fill="rgba(253,251,247,0.94)"/>`,
+            `<text x="${padBox}" y="${svgNum(h - boxH + 28)}" fill="#1A2F28" font-family="Georgia, serif" font-size="15" font-weight="600">${svgEscape("digits of π")}</text>`,
+            `<text x="${padBox}" y="${svgNum(h - boxH + 54)}" fill="#1A2F28" font-family="system-ui, sans-serif" font-size="18" font-weight="500">${svgEscape(`Found ${info.query} at digit ${info.index.toLocaleString()}`)}</text>`,
+            `<text x="${padBox}" y="${svgNum(h - boxH + 76)}" fill="#4A6B5C" font-family="ui-monospace, monospace" font-size="13">${svgEscape(info.context)}</text>`,
+          ].join("");
+        }
+
+        return [
+          `<?xml version="1.0" encoding="UTF-8"?>`,
+          `<svg xmlns="http://www.w3.org/2000/svg" width="${svgNum(w)}" height="${svgNum(h)}" viewBox="0 0 ${svgNum(w)} ${svgNum(h)}">`,
+          `<rect width="100%" height="100%" fill="#F4F1EA"/>`,
+          ...colorGroups,
+          ...lines,
+          footer,
+          `</svg>`,
+        ].join("");
       },
       getCamera: () => cameraRef.current,
     }));

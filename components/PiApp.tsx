@@ -26,7 +26,7 @@ function showSourceToast(source: FindResult["source"]) {
   if (source === "angio") {
     toast(
       <span>
-        Powered By{" "}
+        Result via{" "}
         <a
           href={ANGIO_CREDIT_URL}
           target="_blank"
@@ -42,7 +42,7 @@ function showSourceToast(source: FindResult["source"]) {
   if (source === "pisearch") {
     toast(
       <span>
-        Powered By{" "}
+        Result via{" "}
         <a
           href={PISEARCH_CREDIT_URL}
           target="_blank"
@@ -247,25 +247,46 @@ export function PiApp() {
     );
   }
 
-  function handleExport() {
-    const data = canvasRef.current?.exportImage(
-      result
-        ? {
-            query: result.query,
-            index: result.index,
-            context: result.context,
-          }
-        : null
-    );
+  function exportInfo() {
+    return result
+      ? {
+          query: result.query,
+          index: result.index,
+          context: result.context,
+        }
+      : null;
+  }
+
+  function handleExportPng() {
+    const data = canvasRef.current?.exportImage(exportInfo());
     if (!data) {
       toast.error("Nothing to export yet");
       return;
     }
     const a = document.createElement("a");
     a.href = data;
-    a.download = `pi-${result?.query ?? "slice"}.png`;
+    a.download = `pi-${result?.query ?? "digits"}.png`;
     a.click();
-    toast.success("Image saved");
+    toast.success("PNG saved");
+  }
+
+  function handleExportSvg() {
+    toast.message("Generating SVG…");
+    window.setTimeout(() => {
+      const svg = canvasRef.current?.exportSvg(exportInfo());
+      if (!svg) {
+        toast.error("Nothing to export yet");
+        return;
+      }
+      const blob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `pi-${result?.query ?? "digits"}.svg`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success("SVG saved");
+    }, 0);
   }
 
   function resetView() {
@@ -364,7 +385,8 @@ export function PiApp() {
               <SearchPanel
                 onSearch={runSearch}
                 onShare={handleShare}
-                onExport={handleExport}
+                onExportPng={handleExportPng}
+                onExportSvg={handleExportSvg}
                 onRefresh={resetView}
                 result={result}
                 initialValue={shareSeed}
@@ -374,11 +396,8 @@ export function PiApp() {
             </div>
           )}
           {mode === "search" && (
-            <p className="pointer-events-none absolute bottom-4 right-4 sm:right-8 text-xs text-muted-foreground/80">
-              <span className="sm:hidden">Drag to pan · pinch to zoom</span>
-              <span className="hidden sm:inline">
-                Drag to pan · scroll to zoom
-              </span>
+            <p className="pointer-events-none absolute bottom-4 right-4 sm:right-8 text-xs text-muted-foreground/80 hidden sm:block">
+              Drag to pan · scroll to zoom
             </p>
           )}
         </main>

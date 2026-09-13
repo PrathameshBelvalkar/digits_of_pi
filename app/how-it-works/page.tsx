@@ -5,7 +5,7 @@ import { articleJsonLd, JsonLd, pageOpenGraph, webPageJsonLd } from "@/lib/seo";
 
 const TITLE = "How searching the digits of π works";
 const DESCRIPTION =
-  "Learn how Digits of π finds your number: local search of the first million digits in your browser, then partner deep search across hundreds of millions to billions of digits.";
+  "Learn how Digits of π finds your number: local search of the first million digits in your browser, then optional deep lookup via independent third-party π search services.";
 const PUBLISHED = "2026-09-13";
 
 export const metadata: Metadata = {
@@ -49,8 +49,9 @@ export default function HowItWorksPage() {
           <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
             Digits of π is built so most searches stay private and instant: the
             first 1,000,000 digits live in your browser. When a longer sequence
-            is missing from that window, the app asks trusted deep-search
-            partners — and always shows where the match sits on the spiral.
+            is missing from that window, the app may query independent
+            third-party π search services — and always shows where the match
+            sits on the spiral.
           </p>
         </header>
 
@@ -72,7 +73,7 @@ export default function HowItWorksPage() {
             On load, the app fetches <code className="font-mono text-sm">pi-digits.txt</code>{" "}
             (one million digits) and searches entirely in your browser. Short
             sequences almost always appear in this range. Nothing about a local
-            hit is sent to our servers or to partner APIs.
+            hit is sent to our servers or to third-party search services.
           </p>
         </section>
 
@@ -80,8 +81,8 @@ export default function HowItWorksPage() {
           <h2 className="font-serif text-2xl">Step 2 — Deep search when needed</h2>
           <p className="text-foreground/80 leading-relaxed">
             If your query has 5–8 digits and is not found in the first million,
-            Digits of π calls a small server route that queries partners in
-            order:
+            Digits of π calls a small server route that may query these
+            independent services in order:
           </p>
           <ol className="list-decimal pl-5 space-y-2 text-foreground/80 leading-relaxed">
             <li>
@@ -108,15 +109,24 @@ export default function HowItWorksPage() {
             </li>
           </ol>
           <p className="text-foreground/80 leading-relaxed">
-            When a partner returns a hit, the UI credits them and focuses the
-            canvas on a window around that index. See{" "}
+            Digits of π is not affiliated with those projects. When a service
+            returns a hit, the UI credits them and focuses the canvas on a
+            window around that index. See{" "}
             <Link
               href="/privacy"
               className="text-accent underline-offset-4 hover:underline"
             >
               Privacy
             </Link>{" "}
-            for exactly what leaves your device.
+            and{" "}
+            <Link
+              href="/terms"
+              className="text-accent underline-offset-4 hover:underline"
+            >
+              Terms
+            </Link>{" "}
+            for what leaves your device and how third-party services are
+            disclosed.
           </p>
         </section>
 

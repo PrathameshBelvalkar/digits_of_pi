@@ -5,7 +5,7 @@ import { JsonLd, pageOpenGraph, webPageJsonLd } from "@/lib/seo";
 
 const TITLE = "Privacy — Digits of π";
 const DESCRIPTION =
-  "How Digits of π handles lookups: the first million digits are searched in your browser; deep search for 5–8 digit misses may send the query to partner APIs via our server.";
+  "How Digits of π handles lookups: the first million digits are searched in your browser; deep search for 5–8 digit misses may send the query to independent third-party π search services via our server.";
 
 export const metadata: Metadata = {
   title: "Privacy",
@@ -49,8 +49,8 @@ export default function PrivacyPage() {
             The file <code className="font-mono text-sm">/pi-digits.txt</code>{" "}
             (1,000,000 digits) is downloaded to your browser. Matching against
             that file happens locally with JavaScript. For those hits we do not
-            need to send your number to our API or to any partner. Canvas pan,
-            zoom, and image export also run on your device.
+            need to send your number to our API or to any third-party search
+            service. Canvas pan, zoom, and image export also run on your device.
           </p>
         </section>
 
@@ -60,14 +60,22 @@ export default function PrivacyPage() {
             If your sequence has <strong>5 to 8 digits</strong> and is not found
             locally, the app sends that digit string to our server route{" "}
             <code className="font-mono text-sm">POST /api/pi-search</code>. The
-            server then queries partner services (angio.net, then PiSearch) and
-            returns the position and a small context window. Only the numeric
-            query is required for that request — not your name, email, or
-            account.
+            server may then query independent third-party π search services
+            (angio.net, then PiSearch) and return the position and a small
+            context window. Only the numeric query is required for that request
+            — not your name, email, or account.
           </p>
           <p className="text-foreground/80 leading-relaxed">
-            Partner services operate under their own terms and infrastructure.
-            We credit them in the UI when their data powers a result.
+            Those services are independent and operate under their own terms and
+            infrastructure. Digits of π is not affiliated with them. We credit
+            them in the UI when their data powers a result. See{" "}
+            <Link
+              href="/terms"
+              className="text-accent underline-offset-4 hover:underline"
+            >
+              Terms
+            </Link>{" "}
+            for full third-party disclaimers.
           </p>
         </section>
 
@@ -115,7 +123,14 @@ export default function PrivacyPage() {
             >
               How it works
             </Link>{" "}
-            for the full pipeline, or return to the{" "}
+            for the full pipeline,{" "}
+            <Link
+              href="/terms"
+              className="text-accent underline-offset-4 hover:underline"
+            >
+              Terms
+            </Link>{" "}
+            for usage rules, or return to the{" "}
             <Link
               href="/"
               className="text-accent underline-offset-4 hover:underline"

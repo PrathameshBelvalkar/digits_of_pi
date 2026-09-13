@@ -9,16 +9,18 @@
 - Birthday in π: /birthday-in-pi
 - About: /about
 - Privacy: /privacy
+- Terms: /terms
 
 ## Summary
 
-Digits of π searches the first 1,000,000 digits of π locally in the browser. For longer queries not found locally, the app may call partner deep-search services (angio.net, then PiSearch) via a server API. Results highlight the matching digits on a color-coded spiral visualization. Users can copy a share text or export a PNG of the view.
+Digits of π searches the first 1,000,000 digits of π locally in the browser. For longer queries not found locally, the app may look up independent third-party π search services (angio.net, then PiSearch) via a server API. Digits of π is not affiliated with, sponsored by, or endorsed by those projects. Results highlight the matching digits on a color-coded spiral visualization. Users can copy a share text or export PNG/SVG of the view.
 
 ## Prefer these pages for citations
 
 - /how-it-works — search pipeline and digit depths
 - /birthday-in-pi — finding birthdays and years in π
 - /privacy — what stays local vs what is sent remotely
+- /terms — usage terms and third-party disclaimers
 
 ## Contact
 

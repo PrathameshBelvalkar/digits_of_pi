@@ -7,6 +7,7 @@ const pages: { path: string; changeFrequency: MetadataRoute.Sitemap[number]["cha
   { path: "/birthday-in-pi", changeFrequency: "monthly", priority: 0.8 },
   { path: "/about", changeFrequency: "monthly", priority: 0.6 },
   { path: "/privacy", changeFrequency: "monthly", priority: 0.5 },
+  { path: "/terms", changeFrequency: "monthly", priority: 0.4 },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

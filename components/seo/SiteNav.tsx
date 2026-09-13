@@ -6,6 +6,7 @@ const LINKS = [
   { href: "/birthday-in-pi", label: "Birthday in π" },
   { href: "/about", label: "About" },
   { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
 ] as const;
 
 export function SiteNav({

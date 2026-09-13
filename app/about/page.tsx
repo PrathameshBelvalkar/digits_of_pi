@@ -5,7 +5,7 @@ import { JsonLd, pageOpenGraph, webPageJsonLd } from "@/lib/seo";
 
 const TITLE = "About Digits of π";
 const DESCRIPTION =
-  "Digits of π is an educational web app that finds numbers in π and visualizes them on a concentric-ring canvas, with credits to deep-search partners.";
+  "Digits of π is an educational web app that finds numbers in π and visualizes them on a concentric-ring canvas, with attribution to independent deep-search services.";
 
 export const metadata: Metadata = {
   title: "About",
@@ -61,8 +61,9 @@ export default function AboutPage() {
           <p className="text-foreground/80 leading-relaxed">
             It is not a proof of mathematical normality, not a substitute for
             research-grade digit archives, and not a service that stores your
-            searches as a public catalog. Deep results rely on external experts
-            who maintain much larger digit databases.
+            searches as a public catalog. Deeper results may rely on independent
+            third-party π search services that maintain much larger digit
+            databases.
           </p>
         </section>
 
@@ -70,7 +71,7 @@ export default function AboutPage() {
           <h2 className="font-serif text-2xl">Credits and sources</h2>
           <p className="text-foreground/80 leading-relaxed">
             When a number is missing from the first million digits, Digits of π
-            may query:
+            may look it up through independent third-party π search services:
           </p>
           <ul className="list-disc pl-5 space-y-2 text-foreground/80 leading-relaxed">
             <li>
@@ -95,8 +96,18 @@ export default function AboutPage() {
             </li>
           </ul>
           <p className="text-foreground/80 leading-relaxed">
-            Those projects deserve the credit for deep digit coverage. This app
-            focuses on presentation, education, and a shareable visual moment.
+            Digits of π is{" "}
+            <strong>not affiliated with, sponsored by, or endorsed by</strong>{" "}
+            those projects. They own their tools and data. This app is a
+            separate visualization and education UI; when a result comes from
+            one of those services, we show credit in the interface. See{" "}
+            <Link
+              href="/terms"
+              className="text-accent underline-offset-4 hover:underline"
+            >
+              Terms
+            </Link>{" "}
+            for full disclaimers.
           </p>
         </section>
 
@@ -105,8 +116,8 @@ export default function AboutPage() {
           <ul className="list-disc pl-5 space-y-2 text-foreground/80 leading-relaxed">
             <li>Queries are limited to 3–8 digits.</li>
             <li>
-              Partner APIs can be slow or unavailable; local search still works
-              for the first million digits.
+              Third-party deep search can be slow or unavailable; local search
+              still works for the first million digits.
             </li>
             <li>
               Canvas rendering caps how many dots draw at once for performance.
@@ -124,7 +135,14 @@ export default function AboutPage() {
             >
               Privacy
             </Link>{" "}
-            for an accurate description of local vs remote lookup, or{" "}
+            for an accurate description of local vs remote lookup,{" "}
+            <Link
+              href="/terms"
+              className="text-accent underline-offset-4 hover:underline"
+            >
+              Terms
+            </Link>{" "}
+            for usage rules, or{" "}
             <Link
               href="/how-it-works"
               className="text-accent underline-offset-4 hover:underline"

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { absoluteUrl, SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "@/lib/site";
 
 export const OG_IMAGE = {
-  url: "/meta_image.jpg",
+  url: "/meta_image.png",
   width: 1200,
   height: 630,
   alt: "Find your number in the digits of π",

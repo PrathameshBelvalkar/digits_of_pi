@@ -28,7 +28,8 @@ export function WhatIsThisDialog() {
         <div className="space-y-3 text-sm text-muted-foreground leading-relaxed">
           <p>
             Enter a number between 3 and 8 digits. The first million digits are
-            searched instantly here. If needed we ask the{" "}
+            searched instantly here. If needed we may look up independent
+            third-party π search services — the{" "}
             <a
               href="https://www.angio.net/pi/"
               target="_blank"
@@ -37,7 +38,7 @@ export function WhatIsThisDialog() {
             >
               Pi-Search Page at angio.net
             </a>{" "}
-            (200 million digits), then{" "}
+            (about 200 million digits), then{" "}
             <a
               href="https://pisearch.joshkeegan.co.uk/"
               target="_blank"
@@ -46,7 +47,8 @@ export function WhatIsThisDialog() {
             >
               PiSearch by Josh Keegan
             </a>{" "}
-            (5 billion digits).
+            (about 5 billion digits). Digits of π is not affiliated with those
+            projects.
           </p>
           <p>
             Each colored dot is one digit. Size and color map to the digit value

@@ -18,6 +18,7 @@ import {
 import { WhatIsThisDialog } from "@/components/WhatIsThisDialog";
 import { DigitLegend } from "@/components/DigitLegend";
 import { SiteNav } from "@/components/seo/SiteNav";
+import { SITE_NAME } from "@/lib/site";
 import type { FindResult } from "@/lib/pi-lookup";
 import {
   Minus,
@@ -30,7 +31,8 @@ import {
 type SearchPanelProps = {
   onSearch: (value: string) => void;
   onShare: () => void;
-  onExport: () => void;
+  onExportPng: () => void;
+  onExportSvg: () => void;
   onRefresh: () => void;
   result: FindResult | null;
   initialValue?: string;
@@ -41,7 +43,8 @@ type SearchPanelProps = {
 export function SearchPanel({
   onSearch,
   onShare,
-  onExport,
+  onExportPng,
+  onExportSvg,
   onRefresh,
   result,
   initialValue = "",
@@ -79,8 +82,8 @@ export function SearchPanel({
     >
       <CardHeader className="!flex !flex-col gap-2 sm:gap-3 space-y-0 !grid-cols-none">
         <div className="flex w-full items-center justify-between gap-3">
-          <p className="font-serif text-[11px] tracking-[0.18em] uppercase text-accent">
-            Slice of pi
+          <p className="font-serif text-[11px] tracking-[0.12em] text-accent">
+            {SITE_NAME}
           </p>
           <Button
             type="button"
@@ -138,6 +141,7 @@ export function SearchPanel({
               onChange={setValue}
               pattern="[0-9]*"
               inputMode="numeric"
+              autoFocus
               containerClassName="justify-start"
             >
               <InputOTPGroup className="bg-muted/70">
@@ -206,10 +210,19 @@ export function SearchPanel({
                 type="button"
                 variant="outline"
                 size="sm"
-                onClick={onExport}
+                onClick={onExportPng}
               >
                 <DownloadSimple data-icon="inline-start" />
-                Save image
+                PNG
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onExportSvg}
+              >
+                <DownloadSimple data-icon="inline-start" />
+                SVG
               </Button>
               <Button
                 type="button"
@@ -230,7 +243,7 @@ export function SearchPanel({
         <div className="space-y-2 text-xs text-muted-foreground leading-relaxed">
           <p>
             The first million digits are searched in your browser. Longer misses
-            may use partner deep search.{" "}
+            may use independent third-party deep search.{" "}
             <Link
               href="/how-it-works"
               className="text-accent underline-offset-4 hover:underline"
@@ -240,7 +253,10 @@ export function SearchPanel({
           </p>
           <WhatIsThisDialog />
         </div>
-        <SiteNav compact className="pt-1" />
+        <p className="font-serif text-sm font-medium text-foreground pt-1">
+          {SITE_NAME}
+        </p>
+        <SiteNav compact />
       </CardFooter>
     </Card>
   );

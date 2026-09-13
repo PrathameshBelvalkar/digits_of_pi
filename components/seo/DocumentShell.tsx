@@ -10,10 +10,10 @@ export function DocumentShell({
   return (
     <div className="min-h-dvh flex flex-col bg-background text-foreground">
       <header className="border-b border-border/60 bg-card/40 backdrop-blur-sm">
-        <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+        <div className="mx-auto flex w-full max-w-3xl flex-col items-start gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-6">
           <Link
             href="/"
-            className="font-serif text-lg text-foreground/85 hover:text-foreground"
+            className="shrink-0 whitespace-nowrap font-serif text-xl font-medium text-foreground sm:text-2xl"
           >
             {SITE_NAME}
           </Link>
