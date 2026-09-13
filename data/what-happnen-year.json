@@ -1,0 +1,502 @@
+[
+  {
+    "id": 1,
+    "year": 79,
+    "event": "Mount Vesuvius erupted, burying the Roman cities of Pompeii and Herculaneum in volcanic ash."
+  },
+  {
+    "id": 2,
+    "year": 313,
+    "event": "The Edict of Milan was issued, granting religious tolerance to Christians in the Roman Empire."
+  },
+  {
+    "id": 3,
+    "year": 476,
+    "event": "The Western Roman Empire fell after the deposition of its last emperor, ending ancient Rome's rule in the West."
+  },
+  {
+    "id": 4,
+    "year": 570,
+    "event": "Prophet Muhammad, founder of Islam, was born in Mecca."
+  },
+  {
+    "id": 5,
+    "year": 632,
+    "event": "Prophet Muhammad died, leading to the rapid expansion of the Islamic Caliphate."
+  },
+  {
+    "id": 6,
+    "year": 793,
+    "event": "Viking raiders attacked the monastery at Lindisfarne, marking the start of the Viking Age in Europe."
+  },
+  {
+    "id": 7,
+    "year": 868,
+    "event": "The Diamond Sutra, the oldest known printed book, was produced in China."
+  },
+  {
+    "id": 8,
+    "year": 1054,
+    "event": "Chinese and Arab astronomers recorded a supernova that later formed the Crab Nebula."
+  },
+  {
+    "id": 9,
+    "year": 1066,
+    "event": "William the Conqueror defeated King Harold at the Battle of Hastings, beginning Norman rule in England."
+  },
+  {
+    "id": 10,
+    "year": 1088,
+    "event": "The University of Bologna was founded, considered the oldest university in the world."
+  },
+  {
+    "id": 11,
+    "year": 1206,
+    "event": "Genghis Khan united Mongol tribes and founded the Mongol Empire."
+  },
+  {
+    "id": 12,
+    "year": 1215,
+    "event": "King John of England signed the Magna Carta, limiting royal power."
+  },
+  {
+    "id": 13,
+    "year": 1271,
+    "event": "Marco Polo began his famous journey to China along the Silk Road."
+  },
+  {
+    "id": 14,
+    "year": 1347,
+    "event": "The Black Death plague reached Europe, killing roughly one-third of the population."
+  },
+  {
+    "id": 15,
+    "year": 1440,
+    "event": "Johannes Gutenberg developed the movable-type printing press."
+  },
+  {
+    "id": 16,
+    "year": 1453,
+    "event": "Constantinople fell to the Ottoman Turks, ending the Byzantine Empire."
+  },
+  {
+    "id": 17,
+    "year": 1492,
+    "event": "Christopher Columbus reached the Americas, beginning sustained European contact."
+  },
+  {
+    "id": 18,
+    "year": 1517,
+    "event": "Martin Luther posted his Ninety-Five Theses, sparking the Protestant Reformation."
+  },
+  {
+    "id": 19,
+    "year": 1521,
+    "event": "The Aztec Empire fell to Spanish conquistadors under Hernan Cortes."
+  },
+  {
+    "id": 20,
+    "year": 1543,
+    "event": "Nicolaus Copernicus published his heliocentric model of the solar system."
+  },
+  {
+    "id": 21,
+    "year": 1600,
+    "event": "The British East India Company was founded."
+  },
+  {
+    "id": 22,
+    "year": 1610,
+    "event": "Galileo Galilei observed Jupiter's four largest moons, supporting heliocentrism."
+  },
+  {
+    "id": 23,
+    "year": 1633,
+    "event": "Galileo was tried by the Roman Inquisition for supporting heliocentrism."
+  },
+  {
+    "id": 24,
+    "year": 1666,
+    "event": "The Great Fire of London destroyed much of the medieval city."
+  },
+  {
+    "id": 25,
+    "year": 1687,
+    "event": "Isaac Newton published 'Principia Mathematica', founding classical mechanics."
+  },
+  {
+    "id": 26,
+    "year": 1707,
+    "event": "The Kingdom of Great Britain was formed by the union of England and Scotland."
+  },
+  {
+    "id": 27,
+    "year": 1776,
+    "event": "The United States declared independence from Great Britain."
+  },
+  {
+    "id": 28,
+    "year": 1789,
+    "event": "The French Revolution began, overthrowing the monarchy."
+  },
+  {
+    "id": 29,
+    "year": 1804,
+    "event": "Napoleon Bonaparte crowned himself Emperor of France."
+  },
+  {
+    "id": 30,
+    "year": 1815,
+    "event": "Napoleon was defeated at the Battle of Waterloo, ending his rule."
+  },
+  {
+    "id": 31,
+    "year": 1858,
+    "event": "The British Crown assumed direct control of India, beginning the British Raj."
+  },
+  {
+    "id": 32,
+    "year": 1859,
+    "event": "Charles Darwin published 'On the Origin of Species'."
+  },
+  {
+    "id": 33,
+    "year": 1861,
+    "event": "The American Civil War began over slavery and states' rights."
+  },
+  {
+    "id": 34,
+    "year": 1865,
+    "event": "The American Civil War ended; slavery was abolished in the U.S."
+  },
+  {
+    "id": 35,
+    "year": 1869,
+    "event": "The Suez Canal opened, connecting the Mediterranean and Red Seas."
+  },
+  {
+    "id": 36,
+    "year": 1876,
+    "event": "Alexander Graham Bell was granted a patent for the telephone."
+  },
+  {
+    "id": 37,
+    "year": 1885,
+    "event": "The Indian National Congress was founded."
+  },
+  {
+    "id": 38,
+    "year": 1888,
+    "event": "Nikola Tesla developed the practical AC induction motor."
+  },
+  {
+    "id": 39,
+    "year": 1895,
+    "event": "Wilhelm Roentgen discovered X-rays."
+  },
+  {
+    "id": 40,
+    "year": 1896,
+    "event": "The first modern Olympic Games were held in Athens."
+  },
+  {
+    "id": 41,
+    "year": 1897,
+    "event": "J.J. Thomson discovered the electron."
+  },
+  {
+    "id": 42,
+    "year": 1898,
+    "event": "Marie and Pierre Curie discovered radium and polonium."
+  },
+  {
+    "id": 43,
+    "year": 1903,
+    "event": "The Wright brothers achieved the first powered, sustained airplane flight."
+  },
+  {
+    "id": 44,
+    "year": 1905,
+    "event": "Albert Einstein published his theory of Special Relativity."
+  },
+  {
+    "id": 45,
+    "year": 1911,
+    "event": "Ernest Rutherford proposed the nuclear model of the atom."
+  },
+  {
+    "id": 46,
+    "year": 1912,
+    "event": "The RMS Titanic sank on its maiden voyage."
+  },
+  {
+    "id": 47,
+    "year": 1914,
+    "event": "World War I began following the assassination of Archduke Franz Ferdinand."
+  },
+  {
+    "id": 48,
+    "year": 1917,
+    "event": "The Russian Revolution overthrew the Tsarist government."
+  },
+  {
+    "id": 49,
+    "year": 1918,
+    "event": "World War I ended with the signing of the Armistice."
+  },
+  {
+    "id": 50,
+    "year": 1919,
+    "event": "The Treaty of Versailles formally ended World War I."
+  },
+  {
+    "id": 51,
+    "year": 1922,
+    "event": "Howard Carter discovered the tomb of Tutankhamun in Egypt."
+  },
+  {
+    "id": 52,
+    "year": 1927,
+    "event": "Charles Lindbergh completed the first solo transatlantic flight."
+  },
+  {
+    "id": 53,
+    "year": 1928,
+    "event": "Alexander Fleming discovered penicillin."
+  },
+  {
+    "id": 54,
+    "year": 1929,
+    "event": "The Wall Street Crash triggered the Great Depression."
+  },
+  {
+    "id": 55,
+    "year": 1930,
+    "event": "Mahatma Gandhi led the Salt March against British colonial rule."
+  },
+  {
+    "id": 56,
+    "year": 1932,
+    "event": "James Chadwick discovered the neutron."
+  },
+  {
+    "id": 57,
+    "year": 1936,
+    "event": "The Summer Olympics were held in Berlin under Nazi Germany."
+  },
+  {
+    "id": 58,
+    "year": 1939,
+    "event": "World War II began with Germany's invasion of Poland."
+  },
+  {
+    "id": 59,
+    "year": 1942,
+    "event": "The Quit India Movement demanded an end to British rule in India."
+  },
+  {
+    "id": 60,
+    "year": 1945,
+    "event": "World War II ended after atomic bombings of Hiroshima and Nagasaki."
+  },
+  {
+    "id": 61,
+    "year": 1946,
+    "event": "ENIAC, one of the first general-purpose electronic computers, was completed."
+  },
+  {
+    "id": 62,
+    "year": 1947,
+    "event": "India gained independence from British rule; India and Pakistan were partitioned."
+  },
+  {
+    "id": 63,
+    "year": 1948,
+    "event": "The State of Israel was established."
+  },
+  {
+    "id": 64,
+    "year": 1949,
+    "event": "The People's Republic of China was founded under Mao Zedong."
+  },
+  {
+    "id": 65,
+    "year": 1950,
+    "event": "The Constitution of India was adopted; the Korean War began."
+  },
+  {
+    "id": 66,
+    "year": 1953,
+    "event": "Watson and Crick described the double-helix structure of DNA."
+  },
+  {
+    "id": 67,
+    "year": 1955,
+    "event": "Disneyland opened in Anaheim, California."
+  },
+  {
+    "id": 68,
+    "year": 1957,
+    "event": "The Soviet Union launched Sputnik 1, the first artificial satellite."
+  },
+  {
+    "id": 69,
+    "year": 1961,
+    "event": "Yuri Gagarin became the first human to journey into space."
+  },
+  {
+    "id": 70,
+    "year": 1962,
+    "event": "India and China fought a border war in the Himalayas."
+  },
+  {
+    "id": 71,
+    "year": 1963,
+    "event": "U.S. President John F. Kennedy was assassinated in Dallas."
+  },
+  {
+    "id": 72,
+    "year": 1965,
+    "event": "India and Pakistan fought a war over Kashmir."
+  },
+  {
+    "id": 73,
+    "year": 1969,
+    "event": "Apollo 11 achieved the first crewed Moon landing."
+  },
+  {
+    "id": 74,
+    "year": 1971,
+    "event": "Bangladesh gained independence from Pakistan."
+  },
+  {
+    "id": 75,
+    "year": 1974,
+    "event": "India conducted its first nuclear test, code-named Smiling Buddha."
+  },
+  {
+    "id": 76,
+    "year": 1975,
+    "event": "The Altair 8800, an early personal computer, was released."
+  },
+  {
+    "id": 77,
+    "year": 1981,
+    "event": "IBM released the IBM Personal Computer."
+  },
+  {
+    "id": 78,
+    "year": 1983,
+    "event": "The TCP/IP protocol suite was standardized, forming the Internet's backbone."
+  },
+  {
+    "id": 79,
+    "year": 1984,
+    "event": "A gas leak at a pesticide plant in Bhopal, India caused a major industrial disaster."
+  },
+  {
+    "id": 80,
+    "year": 1986,
+    "event": "The Chernobyl nuclear disaster occurred in the Soviet Union."
+  },
+  {
+    "id": 81,
+    "year": 1989,
+    "event": "The Berlin Wall fell, symbolizing the end of Cold War divisions."
+  },
+  {
+    "id": 82,
+    "year": 1990,
+    "event": "Tim Berners-Lee invented the World Wide Web; East and West Germany reunified."
+  },
+  {
+    "id": 83,
+    "year": 1991,
+    "event": "The Soviet Union officially dissolved, ending the Cold War."
+  },
+  {
+    "id": 84,
+    "year": 1994,
+    "event": "Apartheid ended in South Africa with its first democratic elections."
+  },
+  {
+    "id": 85,
+    "year": 1996,
+    "event": "Dolly the sheep became the first cloned mammal."
+  },
+  {
+    "id": 86,
+    "year": 1997,
+    "event": "Hong Kong was handed over from British to Chinese sovereignty."
+  },
+  {
+    "id": 87,
+    "year": 2001,
+    "event": "Coordinated terrorist attacks struck the World Trade Center and Pentagon on 9/11."
+  },
+  {
+    "id": 88,
+    "year": 2003,
+    "event": "The Human Genome Project was completed."
+  },
+  {
+    "id": 89,
+    "year": 2004,
+    "event": "NASA's Mars rovers Spirit and Opportunity landed on Mars."
+  },
+  {
+    "id": 90,
+    "year": 2008,
+    "event": "A global financial crisis triggered a worldwide recession."
+  },
+  {
+    "id": 91,
+    "year": 2011,
+    "event": "Osama bin Laden was killed; the Arab Spring swept across the Middle East."
+  },
+  {
+    "id": 92,
+    "year": 2012,
+    "event": "CERN scientists announced the discovery of the Higgs boson."
+  },
+  {
+    "id": 93,
+    "year": 2015,
+    "event": "The Paris Agreement on climate change was adopted by nearly 200 nations."
+  },
+  {
+    "id": 94,
+    "year": 2016,
+    "event": "The United Kingdom voted to leave the European Union (Brexit)."
+  },
+  {
+    "id": 95,
+    "year": 2019,
+    "event": "The first-ever image of a black hole was released by the Event Horizon Telescope team."
+  },
+  {
+    "id": 96,
+    "year": 2020,
+    "event": "The World Health Organization declared COVID-19 a global pandemic."
+  },
+  {
+    "id": 97,
+    "year": 2021,
+    "event": "Widespread COVID-19 vaccination campaigns rolled out across the world."
+  },
+  {
+    "id": 98,
+    "year": 2022,
+    "event": "Russia launched a full-scale invasion of Ukraine."
+  },
+  {
+    "id": 99,
+    "year": 2023,
+    "event": "India's Chandrayaan-3 mission achieved a successful soft landing near the Moon's south pole."
+  },
+  {
+    "id": 100,
+    "year": 2024,
+    "event": "Elections were held in over 60 countries, including India, the U.S., and the EU, in the largest global election year in history."
+  }
+]
